@@ -8,26 +8,27 @@ const menus = [
     key: '/home'
   },
   {
-    title: '基本组件',
+    title: '老师管理',
     icon: 'laptop',
     key: '/home/general',
     subs: [
-      {key: '/home/general/button', title: '按钮', icon: '',},
-      {key: '/home/general/icon', title: '图标', icon: '',},
+      {key: '/home/general/button', title: '基本信息', icon: '',},
+      {key: '/home/general/icon', title: '开课信息', icon: '',},
+      {key: '/home/general/icon', title: '历史课程', icon: '',},
     ]
   },
   {
-    title: '导航组件',
+    title: '教材管理',
     icon: 'bars',
     key: '/home/navigation',
     subs: [
-      {key: '/home/navigation/dropdown', title: '下拉菜单', icon: ''},
-      {key: '/home/navigation/menu', title: '导航菜单', icon: ''},
-      {key: '/home/navigation/steps', title: '步骤条', icon: ''},
+      {key: '/home/navigation/dropdown', title: '添加', icon: ''},
+      {key: '/home/navigation/menu', title: '编辑', icon: ''},
+      {key: '/home/navigation/steps', title: '标签管理', icon: ''},
     ]
   },
   {
-    title: '输入组件',
+    title: '开课管理',
     icon: 'edit',
     key: '/home/entry',
     subs: [
@@ -36,27 +37,27 @@ const menus = [
         title: '表单',
         icon: '',
         subs: [
-          {key: '/home/entry/form/basic-form', title: '基础表单', icon: ''},
-          {key: '/home/entry/form/step-form', title: '分步表单', icon: ''}
+          {key: '/home/entry/form/basic-form', title: '开课信息', icon: ''},
+          {key: '/home/entry/form/step-form', title: '历史课程', icon: ''}
         ]
       },
       {key: '/home/entry/upload', title: '上传', icon: ''},
     ]
   },
   {
-    title: '显示组件',
+    title: '学生管理',
     icon: 'desktop',
     key: '/home/display',
     subs: [
-      {key: '/home/display/carousel', title: '轮播图', icon: ''},
-      {key: '/home/display/collapse', title: '折叠面板', icon: ''},
+      {key: '/home/display/carousel', title: '学生总表', icon: ''},
+      {key: '/home/display/collapse', title: '浏览用户', icon: ''},
       {key: '/home/display/list', title: '列表', icon: ''},
       {key: '/home/display/table', title: '表格', icon: ''},
       {key: '/home/display/tabs', title: '标签页', icon: '',},
     ]
   },
   {
-    title: '反馈组件',
+    title: '商品管理',
     icon: 'message',
     key: '/home/feedback',
     subs: [
@@ -66,15 +67,15 @@ const menus = [
     ]
   },
   {
-    title: '其它',
+    title: '教师',
     icon: 'bulb',
     key: '/home/other',
     subs:[
-      {key: '/home/other/animation', title: '动画', icon: '',},
-      {key: '/home/other/gallery', title: '画廊', icon: '',},
-      {key:'/home/other/draft',title:'富文本',icon:''},
-      {key:'/home/other/chart',title:'图表',icon:''},
-      {key:'/home/other/loading',title:'加载动画',icon:''},
+      {key: '/home/other/animation', title: '开课信息', icon: '',},
+      {key: '/home/other/gallery', title: '约课信息', icon: '',},
+      {key:'/home/other/draft',title:'历史课程',icon:''},
+      {key:'/home/other/chart',title:'数据结算',icon:''},
+      {key:'/home/other/loading',title:'个人信息',icon:''},
       {key:'/home/other/404',title:'404',icon:''},
       {key:'/home/other/springText',title:'弹性文字',icon:''},
     ]

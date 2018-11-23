@@ -9,6 +9,8 @@ import { inject, observer } from 'mobx-react/index'
 import Loading from '../../components/Loading'
 import Loading2 from '../../components/Loading2'
 import {preloadingImages} from '../../utils/utils'
+import API from '../../api/api'
+import {ErrorNo} from '../../api/constants'
 import 'animate.css'
 
 const url = 'https://github.com/zhangZhiHao1996/image-store/blob/master/react-admin-master/bg1.jpg?raw=true'
@@ -68,12 +70,10 @@ class LoginForm extends React.Component {
     this.setState({
       focusItem: -1
     })
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        const users = this.props.appStore.users
-        // 检测用户名是否存在
-        const result = users.find(item => item.username === values.username)
-        if (!result) {
+        const res = await API.login({user:values.username,pass:values.password})
+        if (res.status === ErrorNo.UserNotExists) {
           this.props.form.setFields({
             username: {
               value: values.username,
@@ -83,7 +83,7 @@ class LoginForm extends React.Component {
           return
         } else {
           //检测密码是否错误
-          if (result.password !== values.password) {
+          if (res.status === ErrorNo.WrongPass) {
             this.props.form.setFields({
               password: {
                 value: values.password,
@@ -195,27 +195,36 @@ class RegisterForm extends React.Component {
     this.setState({
       focusItem: -1
     })
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        const users = this.props.appStore.users
-        // 检测用户名是否存在
-        const result = users.find(item => item.username === values.registerUsername)
-        if (result) {
-          this.props.form.setFields({
-            registerUsername: {
-              value: values.registerUsername,
-              errors: [new Error('用户名已存在')]
-            }
-          })
-          return
+        const res = await API.register({user:values.registerUsername,pass:values.registerPassword});
+        let error = "";
+        switch(res.status){
+            case ErrorNo.Success:
+                error = ''
+                break
+            case ErrorNo.UserExists:
+              error = '用户名已存在'
+                break
+            case ErrorNo.InvalidUser:
+              error = "用户名不合法"
+                  break
+            case ErrorNo.InvalidPass:
+              error = "密码不合法"
+                break
+            default:
+              error = "未知错误"
+        }
+        if(error.length > 0){
+            this.props.form.setFields({
+                registerUsername: {
+                    value: values.registerUsername,
+                    errors: [new Error(error)]
+                }
+            })
+            return
         }
 
-        const obj = [...this.props.appStore.users, {
-          username: values.registerUsername,
-          password: values.registerPassword
-        }]
-        localStorage.setItem('users', JSON.stringify(obj))
-        this.props.appStore.initUsers()
         message.success('注册成功')
       }
     })
