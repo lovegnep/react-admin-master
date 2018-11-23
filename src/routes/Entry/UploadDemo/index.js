@@ -159,9 +159,10 @@ class UploadDemo extends React.Component {
               <Row type='flex' align='middle'>
                 <Col span={8}>
                   <Upload
-                    name="avatar"
+                      name="file"
+                    data={{type:1}}
                     showUploadList={false}
-                    action='/upload'
+                    action='http://localhost:3000/gm/upload'
                     beforeUpload={this.beforeUpload}
                     onChange={this.handleChange}
                     listType="picture-card">
