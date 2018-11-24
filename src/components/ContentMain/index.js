@@ -1,5 +1,5 @@
 import React from 'react'
-import { withRouter, Switch, Redirect } from 'react-router-dom'
+import {HashRouter, withRouter, Switch, Redirect } from 'react-router-dom'
 import LoadableComponent from '../../utils/LoadableComponent'
 import PrivateRoute from '../PrivateRoute'
 
@@ -8,6 +8,10 @@ const Home = LoadableComponent(()=>import('../../routes/Home/index'))  //参数�
 //基本组件Demo
 const ButtonDemo = LoadableComponent(()=>import('../../routes/General/ButtonDemo/index'))
 const IconDemo = LoadableComponent(()=>import('../../routes/General/IconDemo/index'))
+
+// 教材管理
+const CourseList = LoadableComponent(()=>import('../../routes/Course/list'))
+const CourseEdit = LoadableComponent(()=>import('../../routes/Course/edit'))
 
 //导航组件Demo
 const DropdownDemo = LoadableComponent(()=>import('../../routes/Navigation/DropdownDemo/index'))
@@ -50,6 +54,9 @@ class ContentMain extends React.Component {
       <div style={{padding: 16, position: 'relative'}}>
         <Switch>
           <PrivateRoute exact path='/home' component={Home}/>
+
+          <PrivateRoute exact path='/home/course/list' component={CourseList}/>
+          <PrivateRoute exact path='/home/course/CourseEdit' component={CourseList}/>
 
           <PrivateRoute exact path='/home/general/button' component={ButtonDemo}/>
           <PrivateRoute exact path='/home/general/icon' component={IconDemo}/>

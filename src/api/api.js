@@ -45,17 +45,19 @@ class API extends Server {
 
     }
 
-    async addNewTheme(params = {}) {
+    async uploadCourse(params = {}) {
+        const url = apihead+'course/upload';
         try {
-            let result = await this.axios('post', apihead+'newtheme', params);
-            if (result && result.status === 1) {
+
+            let result = await this.axios('post', url, params);
+            if (result) {
                 return result;
             } else {
                 let err = {
-                    tip: '新建文章失败',
+                    tip: '上传教材失败',
                     response: result,
                     data: params,
-                    url: apihead+'theme/newtheme',
+                    url,
                 }
                 throw err;
             }
@@ -64,17 +66,19 @@ class API extends Server {
         }
 
     }
-    async deleTheme(params = {}) {
+    async operateCourse(params = {}) {
+        const url = apihead+'course/operate';
         try {
-            let result = await this.axios('post', apihead+'theme/'+params._id+'/delete', params);
-            if (result && result.status === 1) {
+
+            let result = await this.axios('post', url, params);
+            if (result) {
                 return result;
             } else {
                 let err = {
-                    tip: '删除文章失败',
+                    tip: '操作教材失败',
                     response: result,
                     data: params,
-                    url: apihead+'theme/'+params._id+'/delete',
+                    url,
                 }
                 throw err;
             }
@@ -83,94 +87,19 @@ class API extends Server {
         }
 
     }
-    async editTheme(params = {}) {
+    async listCourse(params = {}) {
+        const url = apihead+'course/list';
         try {
-            let result = await this.axios('post', apihead+'theme/'+params._id+'/edit', params);
-            if (result && result.status === 1) {
+
+            let result = await this.axios('post', url, params);
+            if (result) {
                 return result;
             } else {
                 let err = {
-                    tip: '修改文章失败',
+                    tip: '获取教材列表失败',
                     response: result,
                     data: params,
-                    url: apihead+'theme/'+params._id+'/edit',
-                }
-                throw err;
-            }
-        } catch (err) {
-            throw err;
-        }
-
-    }
-    async secretTheme(params = {}) {
-        try {
-            let result = await this.axios('post', apihead+'theme/'+params._id+'/addsecret', params);
-            if (result && result.status === 1) {
-                return result;
-            } else {
-                let err = {
-                    tip: '隐藏文章失败',
-                    response: result,
-                    data: params,
-                    url: apihead+'theme/'+params._id+'/addsecret',
-                }
-                throw err;
-            }
-        } catch (err) {
-            throw err;
-        }
-
-    }
-    async unsecretTheme(params = {}) {
-        try {
-            let result = await this.axios('post', apihead+'theme/'+params._id+'/delesecret', params);
-            if (result && result.status === 1) {
-                return result;
-            } else {
-                let err = {
-                    tip: '取消隐藏文章失败',
-                    response: result,
-                    data: params,
-                    url: apihead+'theme/'+params._id+'/delesecret',
-                }
-                throw err;
-            }
-        } catch (err) {
-            throw err;
-        }
-
-    }
-    async addReply(params = {}) {
-        try {
-            let result = await this.axios('post', apihead+'theme/'+params._id+'/reply', params);
-            if (result && result.status === 1) {
-                return result;
-            } else {
-                let err = {
-                    tip: '评论失败',
-                    response: result,
-                    data: params,
-                    url: apihead+'theme/'+params._id+'/reply',
-                }
-                throw err;
-            }
-        } catch (err) {
-            throw err;
-        }
-
-    }
-
-    async optReply(params = {}) {//对评论赞或者踩
-        try {
-            let result = await this.axios('post', apihead+'reply/'+params._id+'/replyopt', params);
-            if (result && result.status === 1) {
-                return result;
-            } else {
-                let err = {
-                    tip: '操作失败',
-                    response: result,
-                    data: params,
-                    url: apihead+'reply/'+params._id+'/replyopt',
+                    url,
                 }
                 throw err;
             }

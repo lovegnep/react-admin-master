@@ -1,16 +1,17 @@
 import React from 'react'
-import {Card, Cascader, Tooltip, Icon, Form, Checkbox, Select, Input, Button, Col, Row, message, BackTop, Upload} from 'antd'
-import CustomBreadcrumb from '../../../components/CustomBreadcrumb/index'
-import API from '../../../api/api'
+import {Avatar,Card, Cascader, Tooltip, Icon, Form, Checkbox, Select, Input, Button, Col, Row, message, BackTop, Upload} from 'antd'
+import CustomBreadcrumb from '../../components/CustomBreadcrumb/index'
+import API from '../../api/api'
 import { Editor } from 'react-draft-wysiwyg'
 import { EditorState, convertToRaw, ContentState } from 'draft-js';
 import draftToMarkdown from 'draftjs-to-markdown';
-import {ErrorNo} from "../../../api/constants";
+import {ErrorNo} from "../../api/constants";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import './style.css'
 
 const FormItem = Form.Item
 const Option = Select.Option
+const ApiHead = "http://localhost:3000/static"
 
 const options = [
   {
@@ -68,9 +69,9 @@ class FormDemo1 extends React.Component {
     text: '获取验证码',
     disabled: false,
       editorState: EditorState.createEmpty(),
-      contentState:content
+      contentState:{}
   }
-    timer = 0
+    initRecord = this.props.location.query.record
   imgs=""
   imgb = ""
   countdown = (e) => {
@@ -100,7 +101,7 @@ class FormDemo1 extends React.Component {
       if (err) {
         message.warning('请先填写正确的表单')
       } else {
-        const content = convertToRaw(__self.state.editorState.getCurrentContent())
+        const content =convertToRaw(__self.state.editorState.getCurrentContent())
           const data = {...values,imgs:__self.imgs,imgb:__self.imgb,content}
         let res = await API.uploadCourse(data);
         if(res.status === ErrorNo.Success){
@@ -133,6 +134,13 @@ class FormDemo1 extends React.Component {
   }
   componentWillUnmount() {
     clearInterval(this.timer)
+  }
+  componentDidMount(){
+    console.log(this.props.location)
+    if(this.initRecord.content){
+        this.setState({contentState:JSON.parse(this.initRecord.content)})
+    }
+
   }
     onEditorStateChange = (editorState) => {
         this.setState({
@@ -173,18 +181,8 @@ class FormDemo1 extends React.Component {
         },
       },
     }
-    const prefixSelector = getFieldDecorator('prefix', {
-      initialValue: 86,
-    })(
-      <Select style={{width: 70}}>
-        <Option value={86}>+86</Option>
-        <Option value={87}>+87</Option>
-      </Select>
-    );
-    const cardContent = '表单页用于向用户收集或验证信息，基础表单常见于数据项较少的表单场景'
     return (
       <div>
-        <CustomBreadcrumb arr={['输入', '表单', '基础表单']}/>
         <Card bordered={false} title='基础表单'>
           <Form layout='horizontal' style={{width: '70%', margin: '0 auto'}} onSubmit={this.handleSubmit}>
             <FormItem label='文章名称' {...formItemLayout}>
@@ -201,7 +199,7 @@ class FormDemo1 extends React.Component {
                     }
                   ]
                 })(
-                  <Input/>
+                  <Input defaultValue={this.initRecord.title}/>
                 )
               }
             </FormItem>
@@ -215,7 +213,7 @@ class FormDemo1 extends React.Component {
                     }
                   ]
                 })(
-                    <Select placeholder="请选择">
+                    <Select placeholder="请选择" defaultValue={this.initRecord.level}>
                         <Option value="0">初级</Option>
                         <Option value="1">中级</Option>
                         <Option value="2">高级</Option>
@@ -233,7 +231,7 @@ class FormDemo1 extends React.Component {
                     }
                   ]
                 })(
-                    <Select placeholder="请选择">
+                    <Select placeholder="请选择" defaultValue={this.initRecord.type}>
                         <Option value="0">体育</Option>
                         <Option value="1">财经</Option>
                         <Option value="2">国际</Option>
@@ -251,7 +249,7 @@ class FormDemo1 extends React.Component {
                     }
                   ]
                 })(
-                    <Select placeholder="请选择">
+                    <Select placeholder="请选择" defaultValue={this.initRecord.country}>
                         <Option value="0">美国</Option>
                         <Option value="1">英国</Option>
                         <Option value="2">国际</Option>
@@ -262,6 +260,7 @@ class FormDemo1 extends React.Component {
             <FormItem label='焦点大图' {...formItemLayout}>
               {
                   <Upload name="file" data={{type:4}} onChange={this.handleImgbUpload} action="http://localhost:3000/gm/upload" listType="picture" withCredentials={true}>
+                      { this.initRecord.imgb && <Avatar shape="square" size={64} src={ApiHead+this.initRecord.imgb} />}
                       <Button>
                           <Icon type="upload" /> Click to upload
                       </Button>
@@ -271,6 +270,7 @@ class FormDemo1 extends React.Component {
             <FormItem label='文章标题图' {...formItemLayout}>
               {
                   <Upload name="file" data={{type:4}} onChange={this.handleImgsUpload} action="http://localhost:3000/gm/upload" listType="picture" withCredentials={true}>
+                      { this.initRecord.imgs && <Avatar shape="square" size={64} src={ApiHead+this.initRecord.imgs} />}
                       <Button>
                           <Icon type="upload" /> Click to upload
                       </Button>
@@ -285,6 +285,7 @@ class FormDemo1 extends React.Component {
                       <Card bordered={false} className='card-item'>
                           <Editor
                               editorState={editorState}
+                              initialContentState={contentState}
                               onEditorStateChange={this.onEditorStateChange}
                               onContentStateChange={this.onContentStateChange}
                               wrapperClassName="wrapper-class"
