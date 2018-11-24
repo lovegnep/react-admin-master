@@ -23,7 +23,7 @@ const menus = [
     key: '/home/navigation',
     subs: [
       {key: '/home/course/list', title: '查看', icon: ''},
-      {key: '/home/entry/form/basic-form', title: '添加', icon: ''},
+      {key: '/home/course/upload', title: '添加', icon: ''},
       //{key: '/home/course/edit', title: '编辑', icon: ''},
       {key: '/home/navigation/step2', title: '标签管理', icon: ''},
     ]
