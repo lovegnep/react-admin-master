@@ -66,6 +66,27 @@ class API extends Server {
         }
 
     }
+    async editCourse(params = {}) {
+        const url = apihead+'course/edit';
+        try {
+
+            let result = await this.axios('post', url, params);
+            if (result) {
+                return result;
+            } else {
+                let err = {
+                    tip: '编辑教材失败',
+                    response: result,
+                    data: params,
+                    url,
+                }
+                throw err;
+            }
+        } catch (err) {
+            throw err;
+        }
+
+    }
     async operateCourse(params = {}) {
         const url = apihead+'course/operate';
         try {

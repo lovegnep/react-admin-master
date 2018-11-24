@@ -11,7 +11,7 @@ import './style.css'
 
 const FormItem = Form.Item
 const Option = Select.Option
-const ApiHead = "http://localhost:3000/static"
+const ApiHead = "http://localhost:3000/static/"
 
 const options = [
   {
@@ -61,17 +61,17 @@ const options = [
     ]
   }
 ]
-const content = {"entityMap":{},"blocks":[{"key":"637gr","text":"Initialized from content state.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]};
+const content = {"entityMap":{},"blocks":[{"key":"637gr","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]};
 
 @Form.create()
 class FormDemo1 extends React.Component {
   state = {
     text: '获取验证码',
     disabled: false,
+    contentState:this.props.location.query ? JSON.parse(this.props.location.query.record.content) :content,
       editorState: EditorState.createEmpty(),
-      contentState:{}
   }
-    initRecord = this.props.location.query.record
+  initRecord = this.props.location.query ? this.props.location.query.record : {}
   imgs=""
   imgb = ""
   countdown = (e) => {
@@ -102,8 +102,9 @@ class FormDemo1 extends React.Component {
         message.warning('请先填写正确的表单')
       } else {
         const content =convertToRaw(__self.state.editorState.getCurrentContent())
-          const data = {...values,imgs:__self.imgs,imgb:__self.imgb,content}
-        let res = await API.uploadCourse(data);
+          const data = {...values,imgs:__self.imgs,imgb:__self.imgb,content,_id:this.initRecord._id}
+          console.log(data)
+        let res = await API.editCourse(data);
         if(res.status === ErrorNo.Success){
             message.success('提交成功')
         }else{
@@ -138,7 +139,9 @@ class FormDemo1 extends React.Component {
   componentDidMount(){
     console.log(this.props.location)
     if(this.initRecord.content){
-        this.setState({contentState:JSON.parse(this.initRecord.content)})
+      const data = JSON.parse(this.initRecord.content)
+        console.log(data)
+        this.setState({contentState:data})
     }
 
   }
@@ -157,7 +160,6 @@ class FormDemo1 extends React.Component {
 
     }
   render() {
-      const { editorState,contentState } = this.state;
     const {getFieldDecorator, getFieldValue} = this.props.form
     const formItemLayout = {
       labelCol: {
@@ -188,6 +190,7 @@ class FormDemo1 extends React.Component {
             <FormItem label='文章名称' {...formItemLayout}>
               {
                 getFieldDecorator('title', {
+                  initialValue:this.initRecord.title,
                   rules: [
                     {
                       type: 'string',
@@ -199,13 +202,14 @@ class FormDemo1 extends React.Component {
                     }
                   ]
                 })(
-                  <Input defaultValue={this.initRecord.title}/>
+                  <Input/>
                 )
               }
             </FormItem>
             <FormItem label='难度' {...formItemLayout}>
               {
                 getFieldDecorator('level', {
+                    initialValue:this.initRecord.level,
                   rules: [
                     {
                       required: true,
@@ -213,7 +217,7 @@ class FormDemo1 extends React.Component {
                     }
                   ]
                 })(
-                    <Select placeholder="请选择" defaultValue={this.initRecord.level}>
+                    <Select placeholder="请选择">
                         <Option value="0">初级</Option>
                         <Option value="1">中级</Option>
                         <Option value="2">高级</Option>
@@ -224,6 +228,7 @@ class FormDemo1 extends React.Component {
             <FormItem label='类别' {...formItemLayout}>
               {
                 getFieldDecorator('type', {
+                    initialValue:this.initRecord.type,
                   rules: [
                     {
                       required: true,
@@ -231,7 +236,7 @@ class FormDemo1 extends React.Component {
                     }
                   ]
                 })(
-                    <Select placeholder="请选择" defaultValue={this.initRecord.type}>
+                    <Select placeholder="请选择">
                         <Option value="0">体育</Option>
                         <Option value="1">财经</Option>
                         <Option value="2">国际</Option>
@@ -242,6 +247,7 @@ class FormDemo1 extends React.Component {
             <FormItem label='国别' {...formItemLayout}>
               {
                 getFieldDecorator('country', {
+                    initialValue:this.initRecord.country,
                   rules: [
                     {
                       required: true,
@@ -249,7 +255,7 @@ class FormDemo1 extends React.Component {
                     }
                   ]
                 })(
-                    <Select placeholder="请选择" defaultValue={this.initRecord.country}>
+                    <Select placeholder="请选择">
                         <Option value="0">美国</Option>
                         <Option value="1">英国</Option>
                         <Option value="2">国际</Option>
@@ -260,20 +266,21 @@ class FormDemo1 extends React.Component {
             <FormItem label='焦点大图' {...formItemLayout}>
               {
                   <Upload name="file" data={{type:4}} onChange={this.handleImgbUpload} action="http://localhost:3000/gm/upload" listType="picture" withCredentials={true}>
-                      { this.initRecord.imgb && <Avatar shape="square" size={64} src={ApiHead+this.initRecord.imgb} />}
-                      <Button>
-                          <Icon type="upload" /> Click to upload
-                      </Button>
+                      { this.initRecord.imgb ? <Avatar shape="square" size={64} src={ApiHead+this.initRecord.imgb} /> :
+                          <Button>
+                              <Icon type="upload" /> Click to upload
+                          </Button>}
+
                   </Upload>
               }
             </FormItem>
             <FormItem label='文章标题图' {...formItemLayout}>
               {
                   <Upload name="file" data={{type:4}} onChange={this.handleImgsUpload} action="http://localhost:3000/gm/upload" listType="picture" withCredentials={true}>
-                      { this.initRecord.imgs && <Avatar shape="square" size={64} src={ApiHead+this.initRecord.imgs} />}
-                      <Button>
-                          <Icon type="upload" /> Click to upload
-                      </Button>
+                      {this.initRecord.imgs ? <Avatar shape="square" size={64} src={ApiHead+this.initRecord.imgs} /> :
+                          <Button>
+                              <Icon type="upload" /> Click to upload
+                          </Button>}
                   </Upload>
               }
             </FormItem>
@@ -284,10 +291,9 @@ class FormDemo1 extends React.Component {
                   })(
                       <Card bordered={false} className='card-item'>
                           <Editor
-                              editorState={editorState}
-                              initialContentState={contentState}
-                              onEditorStateChange={this.onEditorStateChange}
+                              initialContentState={this.state.contentState}
                               onContentStateChange={this.onContentStateChange}
+                              onEditorStateChange={this.onEditorStateChange}
                               wrapperClassName="wrapper-class"
                               editorClassName="editor-class"
                               toolbarClassName="toolbar-class"

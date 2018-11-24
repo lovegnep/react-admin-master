@@ -12,9 +12,9 @@ const menus = [
     icon: 'laptop',
     key: '/home/general',
     subs: [
-      {key: '/home/general/button', title: '基本信息', icon: '',},
-      {key: '/home/general/icon', title: '开课信息', icon: '',},
-      {key: '/home/general/icon1', title: '历史课程', icon: '',},
+      {key: '/home/general/button1', title: '基本信息', icon: '',},
+      {key: '/home/general/icon1', title: '开课信息', icon: '',},
+      {key: '/home/general/icon12', title: '历史课程', icon: '',},
     ]
   },
   {
@@ -24,8 +24,8 @@ const menus = [
     subs: [
       {key: '/home/course/list', title: '查看', icon: ''},
       {key: '/home/entry/form/basic-form', title: '添加', icon: ''},
-      {key: '/home/navigation/menu', title: '编辑', icon: ''},
-      {key: '/home/navigation/steps', title: '标签管理', icon: ''},
+      //{key: '/home/course/edit', title: '编辑', icon: ''},
+      {key: '/home/navigation/step2', title: '标签管理', icon: ''},
     ]
   },
   {
@@ -33,8 +33,8 @@ const menus = [
     icon: 'edit',
     key: '/home/entry',
     subs: [
-        {key: '/home/entry/form/basic-form', title: '开课信息', icon: ''},
-        {key: '/home/entry/form/step-form', title: '历史课程', icon: ''}
+        {key: '/home/entry/form/basic-for1m', title: '开课信息', icon: ''},
+        {key: '/home/entry/form/step-fo1rm', title: '历史课程', icon: ''}
     ]
   },
   {
@@ -42,8 +42,8 @@ const menus = [
     icon: 'desktop',
     key: '/home/display',
     subs: [
-      {key: '/home/display/carousel', title: '学生总表', icon: ''},
-      {key: '/home/display/collapse', title: '浏览用户', icon: ''},
+      {key: '/home/display/caro1usel', title: '学生总表', icon: ''},
+      {key: '/home/display/coll1apse', title: '浏览用户', icon: ''},
     ]
   },
   {
@@ -51,7 +51,7 @@ const menus = [
     icon: 'message',
     key: '/home/feedback',
     subs: [
-      {key: '/home/feedback/modal', title: '商品管理', icon: '',},
+      {key: '/home/feedback/mo1dal', title: '商品管理', icon: '',},
     ]
   },
   {
@@ -59,11 +59,11 @@ const menus = [
     icon: 'bulb',
     key: '/home/other',
     subs:[
-      {key: '/home/other/animation', title: '开课信息', icon: '',},
-      {key: '/home/other/gallery', title: '约课信息', icon: '',},
-      {key:'/home/other/draft',title:'历史课程',icon:''},
-      {key:'/home/other/chart',title:'数据结算',icon:''},
-      {key:'/home/other/loading',title:'个人信息',icon:''},
+      {key: '/home/other/animat1ion', title: '开课信息', icon: '',},
+      {key: '/home/other/gal1lery', title: '约课信息', icon: '',},
+      {key:'/home/other/dra1ft',title:'历史课程',icon:''},
+      {key:'/home/other/cha1rt',title:'数据结算',icon:''},
+      {key:'/home/other/loa1ding',title:'个人信息',icon:''},
     ]
   },
   {

@@ -63,7 +63,7 @@ class CourseList extends React.Component {
       },
   ]
     handleEdit = (record)=>{
-        this.props.history.push({ pathname : '/home/course/CourseEdit' ,query : { record} })
+        this.props.history.push({ pathname : '/home/course/edit',query:{record}})
     }
     handle = async (operate,_id)=>{
       console.log(operate, _id);
